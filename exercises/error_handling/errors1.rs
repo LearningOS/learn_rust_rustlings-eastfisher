@@ -5,14 +5,23 @@
 // construct to `Option` that can be used to express error conditions. Let's use it!
 // Execute `rustlings hint errors1` for hints!
 
-// I AM NOT DONE
+use std::fmt;
 
-pub fn generate_nametag_text(name: String) -> Option<String> {
+#[derive(Debug,PartialEq)]
+pub struct MyError(String);
+
+impl From<&'static str> for MyError {
+    fn from(s: &'static str) -> Self {
+        MyError(String::from(s))
+    }
+}
+
+pub fn generate_nametag_text(name: String) -> Result<String, MyError> {
     if name.len() > 0 {
-        Some(format!("Hi! My name is {}", name))
+        Ok(format!("Hi! My name is {}", name))
     } else {
         // Empty names aren't allowed.
-        None
+        Err("`name` was empty; it must be nonempty.".into())
     }
 }
 
